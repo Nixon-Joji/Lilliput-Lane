@@ -1,0 +1,59 @@
+{% extends 'ecom/customer_base.html' %}
+{% load static %}
+
+{% block content %}
+<head>
+
+</head>
+<style media="screen">
+
+.panel-title {display: inline;font-weight: bold;}
+.checkbox.pull-right { margin: 0; }
+.pl-ziro { padding-left: 0px; }
+</style>
+<br><br>
+<br><br>
+<div class="container" style="text-align:center; padding-left:300px;">
+    <div class="row">
+        <div class="col-xs-12 col-md-4" style="height:500px; width:600px;">
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <h3 class="panel-title">
+                        Payment Details
+                    </h3>
+                    
+                </div>
+                <div class="panel-body">
+                    <form action="pymnt" method="POST" id="razorpayForm">
+                        {% csrf_token %}
+                        <script
+                            src="https://checkout.razorpay.com/v1/checkout.js"
+                            data-key="rzp_test_q8lmP9PvsKqtYz" 
+                            data-amount="{{total}}" 
+                            data-currency="INR"
+                            data-order_id="{{Orders.id}}"
+                            data-buttontext="Pay with Razorpay"
+                            data-name="Lilliput Lane"
+                            data-description="Knock knock..."
+                            data-image="https://example.com/your_logo.jpg"
+                            data-prefill.name="User"
+                            data-prefill.email="user@example.com"
+                            data-theme.color="#F37254"
+                        ></script>
+                        <input type="hidden" custom="Hidden Element" name="hidden"/>
+                        </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+   
+    document.addEventListener("DOMContentLoaded", function() {
+        const razorpayForm = document.getElementById('razorpayForm');
+        const csrfToken = document.getElementsByName("csrfmiddlewaretoken")[0].value;
+        razorpayForm.dataset.csrfToken = csrfToken;
+    });
+</script>
+
+{% endblock content %}
